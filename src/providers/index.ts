@@ -27,7 +27,7 @@ export interface ModelOverrides {
   subagentModel?: string;
 }
 
-const LOCAL_AUTH_FALLBACK = 'local-llm';
+const LITELLM_AUTH_FALLBACK = 'litellm-proxy';
 
 const PROVIDERS: Record<string, ProviderTemplate> = {
   zai: {
@@ -80,18 +80,18 @@ const PROVIDERS: Record<string, ProviderTemplate> = {
     authMode: 'authToken',
     requiresModelMapping: true,
   },
-  local: {
-    key: 'local',
-    label: 'Local LLMs',
-    description: 'Local Anthropic-compatible endpoint (LiteLLM, etc.)',
+  litellm: {
+    key: 'litellm',
+    label: 'LiteLLM',
+    description: 'LiteLLM proxy for local LLMs (Ollama, LM Studio, vLLM)',
     baseUrl: 'http://localhost:4000/anthropic',
     env: {
       API_TIMEOUT_MS: DEFAULT_TIMEOUT_MS,
       CC_MIRROR_SPLASH: 1,
-      CC_MIRROR_PROVIDER_LABEL: 'Local LLMs',
-      CC_MIRROR_SPLASH_STYLE: 'local',
+      CC_MIRROR_PROVIDER_LABEL: 'LiteLLM',
+      CC_MIRROR_SPLASH_STYLE: 'litellm',
     },
-    apiKeyLabel: 'Local API key (optional)',
+    apiKeyLabel: 'LiteLLM API key (optional)',
     authMode: 'authToken',
     requiresModelMapping: true,
     credentialOptional: true,
@@ -176,8 +176,8 @@ export const buildEnv = ({
     const trimmed = normalizeModelValue(apiKey);
     if (trimmed) {
       env.ANTHROPIC_AUTH_TOKEN = trimmed;
-    } else if (providerKey === 'local') {
-      env.ANTHROPIC_AUTH_TOKEN = LOCAL_AUTH_FALLBACK;
+    } else if (providerKey === 'litellm') {
+      env.ANTHROPIC_AUTH_TOKEN = LITELLM_AUTH_FALLBACK;
     }
     if (Object.hasOwn(env, 'ANTHROPIC_API_KEY')) {
       delete env.ANTHROPIC_API_KEY;

@@ -135,11 +135,11 @@ export const createVariant = (params: CreateVariantParams): CreateVariantResult 
     notes.push('ANTHROPIC_AUTH_TOKEN not set; provider auth may fail.');
   }
 
-  if (providerKey === 'local' && env.ANTHROPIC_AUTH_TOKEN === 'local-llm') {
-    notes.push('Local auth token set to placeholder (local-llm).');
+  if (providerKey === 'litellm' && env.ANTHROPIC_AUTH_TOKEN === 'litellm-proxy') {
+    notes.push('LiteLLM auth token set to placeholder (litellm-proxy).');
   }
 
-  if (providerKey === 'openrouter' || providerKey === 'local') {
+  if (providerKey === 'openrouter' || providerKey === 'litellm') {
     const missing: string[] = [];
     if (!env.ANTHROPIC_DEFAULT_SONNET_MODEL) missing.push('ANTHROPIC_DEFAULT_SONNET_MODEL');
     if (!env.ANTHROPIC_DEFAULT_OPUS_MODEL) missing.push('ANTHROPIC_DEFAULT_OPUS_MODEL');

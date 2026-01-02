@@ -13,7 +13,7 @@ Usage:
 
 Options (create/update):
   --name <name>            Variant name
-  --provider <name>        Provider: zai | minimax | openrouter | local | custom
+  --provider <name>        Provider: zai | minimax | openrouter | litellm | custom
   --base-url <url>         ANTHROPIC_BASE_URL override
   --api-key <key>          Provider API key (apiKey or authToken)
   --timeout-ms <ms>        API_TIMEOUT_MS override
@@ -24,7 +24,7 @@ Options (create/update):
   --model-small-fast <name> ANTHROPIC_SMALL_FAST_MODEL
   --model-default <name>   ANTHROPIC_MODEL
   --model-subagent <name>  CLAUDE_CODE_SUBAGENT_MODEL
-  --brand <preset>         Brand preset: auto | none | zai | minimax | openrouter | local
+  --brand <preset>         Brand preset: auto | none | zai | minimax | openrouter | litellm
   --quick                 Fast path: provider + API key only (npm install)
   --root <path>            Variants root (default: ~/.cc-mirror)
   --bin-dir <path>         Wrapper install dir (default: ~/.local/bin)

@@ -213,28 +213,28 @@ test('openrouter brand preset writes tweakcc config', () => {
   });
 });
 
-test('local brand preset writes tweakcc config', () => {
+test('litellm brand preset writes tweakcc config', () => {
   withFakeNpm(() => {
     const rootDir = makeTempDir();
     const binDir = makeTempDir();
 
     core.createVariant({
-      name: 'local',
-      providerKey: 'local',
+      name: 'litellm',
+      providerKey: 'litellm',
       apiKey: '',
       rootDir,
       binDir,
-      brand: 'local',
+      brand: 'litellm',
       promptPack: false,
       skillInstall: false,
       noTweak: true,
       tweakccStdio: 'pipe',
     });
 
-    const tweakConfigPath = path.join(rootDir, 'local', 'tweakcc', 'config.json');
+    const tweakConfigPath = path.join(rootDir, 'litellm', 'tweakcc', 'config.json');
     assert.ok(fs.existsSync(tweakConfigPath));
     const tweakConfig = JSON.parse(readFile(tweakConfigPath)) as { settings?: { themes?: { id?: string }[] } };
-    assert.equal(tweakConfig.settings?.themes?.[0]?.id, 'local-sky');
+    assert.equal(tweakConfig.settings?.themes?.[0]?.id, 'litellm-sky');
 
     cleanup(rootDir);
     cleanup(binDir);

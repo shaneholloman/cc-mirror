@@ -62,8 +62,8 @@ const palette = {
 };
 
 const theme: Theme = {
-  name: 'Local LLMs Sky',
-  id: 'local-sky',
+  name: 'LiteLLM Sky',
+  id: 'litellm-sky',
   colors: {
     autoAccept: rgb(palette.green),
     bashBorder: rgb(palette.sky),
@@ -129,7 +129,7 @@ const theme: Theme = {
   },
 };
 
-export const buildLocalTweakccConfig = (): TweakccConfig => ({
+export const buildLiteLLMTweakccConfig = (): TweakccConfig => ({
   ccVersion: '',
   ccInstallationPath: null,
   lastModified: new Date().toISOString(),
@@ -187,11 +187,11 @@ export const buildLocalTweakccConfig = (): TweakccConfig => ({
     },
     toolsets: [
       {
-        name: 'local',
+        name: 'litellm',
         allowedTools: '*',
       },
     ],
-    defaultToolset: 'local',
-    planModeToolset: 'local',
+    defaultToolset: 'litellm',
+    planModeToolset: 'litellm',
   },
 });
