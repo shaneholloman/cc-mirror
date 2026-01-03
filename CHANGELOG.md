@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2025-01-03
+
+### Fixed
+
+- Fixed npx compatibility by keeping React/Ink as external dependencies
+- Resolved dynamic require and ESM bundling issues
+- Bundle now properly delegates React ecosystem to npm
+
 ## [1.0.0] - 2025-01-03
 
 ### Added
