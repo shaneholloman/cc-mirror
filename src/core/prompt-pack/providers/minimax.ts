@@ -7,13 +7,6 @@ export const MINIMAX_UNDERSTAND_IMAGE = 'mcp__MiniMax__understand_image';
 const buildMinimaxContract = (mode: PromptPackMode) =>
   `
 <explicit_guidance>
-Provider: MiniMax
-
-<authentication>
-- Use API-key auth only.
-- Ignore ANTHROPIC_AUTH_TOKEN if present.
-</authentication>
-
 <tool_routing priority="critical">
 MiniMax MCP tools available (and ONLY these for web + vision):
 - ${MINIMAX_WEB_SEARCH} (web search)

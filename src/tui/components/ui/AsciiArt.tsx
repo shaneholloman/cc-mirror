@@ -10,26 +10,6 @@ import { colors } from './theme.js';
 import type { HaikuLines } from '../../content/haikus.js';
 
 /**
- * Celebration checkmark for completion screens
- */
-export const CelebrationCheckmark: React.FC = () => (
-  <Box flexDirection="column" alignItems="center">
-    <Text color={colors.success}>{'    ╔════════════════════╗'}</Text>
-    <Text color={colors.success}>{'    ║   ✓ SUCCESS! ✓    ║'}</Text>
-    <Text color={colors.success}>{'    ╚════════════════════╝'}</Text>
-  </Box>
-);
-
-/**
- * Gold divider with diamond accent
- */
-export const CelebrationDivider: React.FC = () => (
-  <Box justifyContent="center">
-    <Text color={colors.gold}>{'━━━━━━━━━━◆━━━━━━━━━━'}</Text>
-  </Box>
-);
-
-/**
  * Haiku display component
  */
 export const HaikuDisplay: React.FC<{ lines: HaikuLines }> = ({ lines }) => (

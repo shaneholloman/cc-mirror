@@ -9,7 +9,7 @@ import { Box, Text, useStdout } from 'ink';
 import { ScreenLayout } from '../components/ui/ScreenLayout.js';
 import { Code, SummaryRow } from '../components/ui/Typography.js';
 import { SelectMenu } from '../components/ui/Menu.js';
-import { CelebrationCheckmark, CelebrationDivider, HaikuDisplay } from '../components/ui/AsciiArt.js';
+import { HaikuDisplay } from '../components/ui/AsciiArt.js';
 import { colors, icons } from '../components/ui/theme.js';
 import { getRandomHaiku, type HaikuLines } from '../content/haikus.js';
 import { getMilestoneMessage, isLateNight, LATE_NIGHT_MESSAGE } from '../content/easter-eggs.js';
@@ -91,10 +91,6 @@ export const CompletionScreen: React.FC<CompletionScreenProps> = ({
 
   return (
     <ScreenLayout title={`${icons.check} Success!`} subtitle={subtitleText} borderColor={colors.success} icon={null}>
-      {/* Celebration Header */}
-      <CelebrationCheckmark />
-      <CelebrationDivider />
-
       {/* Milestone or late night message */}
       {milestoneMessage && (
         <Box justifyContent="center" marginY={1}>
