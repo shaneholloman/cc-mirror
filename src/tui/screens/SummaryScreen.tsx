@@ -30,6 +30,7 @@ interface SummaryData {
   promptPackMode: 'minimal' | 'maximal';
   installSkill: boolean;
   enableTeamMode: boolean;
+  teamModeSupported: boolean;
   shellEnv: boolean;
 }
 
@@ -92,10 +93,12 @@ export const SummaryScreen: React.FC<SummaryScreenProps> = ({ data, onConfirm, o
           }
         />
         <SummaryRow label="dev-browser skill" value={data.installSkill ? 'on' : 'off'} />
-        <SummaryRow
-          label="Team mode"
-          value={data.enableTeamMode ? 'on (orchestrator skill, TodoWrite blocked)' : 'off'}
-        />
+        {data.teamModeSupported && (
+          <SummaryRow
+            label="Team mode"
+            value={data.enableTeamMode ? 'on (orchestrator skill, TodoWrite blocked)' : 'off'}
+          />
+        )}
         {data.providerKey === 'zai' && (
           <SummaryRow label="Shell env" value={data.shellEnv ? 'write Z_AI_API_KEY' : 'manual'} />
         )}

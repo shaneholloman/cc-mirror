@@ -127,6 +127,8 @@ Default `<bin-dir>` is `~/.local/bin` on macOS/Linux and `~/.cc-mirror/bin` on W
 
 ## Team Mode
 
+**Legacy notice:** Team mode is only supported in the published cc-mirror **1.6.3** release. Current development builds do not patch Claude Code; focus is provider enablement and stable updates.
+
 Team mode patches `cli.js` to enable Task\* tools for multi-agent collaboration.
 
 ### How It Works

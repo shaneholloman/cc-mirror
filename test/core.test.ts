@@ -45,6 +45,7 @@ test('core create/update/remove/doctor flows', async () => {
   assert.equal(configJson.env.FOO, 'bar');
   assert.equal(configJson.env.ANTHROPIC_API_KEY, '<API_KEY>');
   assert.equal(configJson.env.DISABLE_AUTOUPDATER, '1');
+  assert.equal(configJson.env.DISABLE_AUTO_MIGRATE_TO_NATIVE, '1');
   assert.equal(configJson.env.CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION, '1');
 
   const pkgBefore = JSON.parse(readFile(packageJsonPath)) as { version?: string };
@@ -189,7 +190,7 @@ test('ccrouter brand preset writes tweakcc config', () => {
   cleanup(binDir);
 });
 
-test('mirror brand preset writes tweakcc config and enables team mode', () => {
+test('mirror brand preset writes tweakcc config and respects team mode support', () => {
   const rootDir = makeTempDir();
   const binDir = makeTempDir();
 
@@ -210,10 +211,14 @@ test('mirror brand preset writes tweakcc config and enables team mode', () => {
   const tweakConfig = JSON.parse(readFile(tweakConfigPath)) as { settings?: { themes?: { id?: string }[] } };
   assert.equal(tweakConfig.settings?.themes?.[0]?.id, 'mirror-claude');
 
-  // Verify variant.json has team mode enabled (mirror provider auto-enables)
+  // Verify variant.json has team mode enabled only when supported
   const variantPath = path.join(rootDir, 'mirror-test', 'variant.json');
   const variant = JSON.parse(readFile(variantPath)) as { teamModeEnabled?: boolean; promptPack?: boolean };
-  assert.equal(variant.teamModeEnabled, true, 'mirror provider should auto-enable team mode');
+  assert.equal(
+    variant.teamModeEnabled,
+    core.TEAM_MODE_SUPPORTED ? true : false,
+    'mirror provider should respect team mode support'
+  );
   assert.equal(variant.promptPack, false, 'mirror provider should have promptPack disabled');
 
   // Verify settings.json has no auth overrides (pure Claude Code)

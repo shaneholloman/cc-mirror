@@ -7,7 +7,13 @@
 
 import path from 'node:path';
 import { getProvider, type ProviderTemplate } from '../../providers/index.js';
-import { DEFAULT_BIN_DIR, DEFAULT_NPM_PACKAGE, DEFAULT_NPM_VERSION, DEFAULT_ROOT } from '../constants.js';
+import {
+  DEFAULT_BIN_DIR,
+  DEFAULT_NPM_PACKAGE,
+  DEFAULT_NPM_VERSION,
+  DEFAULT_ROOT,
+  TEAM_MODE_SUPPORTED,
+} from '../constants.js';
 import { assertValidVariantName, expandTilde, getWrapperPath } from '../paths.js';
 import type { CreateVariantParams, CreateVariantResult } from '../types.js';
 import type { BuildContext, BuildPaths, BuildPreferences, BuildState, BuildStep, ReportFn } from './types.js';
@@ -55,7 +61,7 @@ export class VariantBuilder {
       new InstallNpmStep(),
       new WriteConfigStep(),
       new BrandThemeStep(), // Creates tweakcc/config.json
-      new TeamModeStep(), // Patches cli.js and configures team toolset (needs config.json)
+      ...(TEAM_MODE_SUPPORTED ? [new TeamModeStep()] : []), // Team mode is gated by TEAM_MODE_SUPPORTED
       new TweakccStep(),
       new WrapperStep(),
       new ShellEnvStep(),

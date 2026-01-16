@@ -35,6 +35,10 @@ export function runUpdateCommand({ opts }: UpdateCommandOptions): void {
   const tweakccStdio =
     rawTweakccStdio === 'inherit' || opts.verbose ? 'inherit' : rawTweakccStdio === 'pipe' ? 'pipe' : 'pipe';
 
+  if (!core.TEAM_MODE_SUPPORTED && (enableTeamMode || disableTeamMode)) {
+    console.log('Team mode flags are ignored in this release. Use cc-mirror 1.6.3 for team mode support.');
+  }
+
   for (const name of names) {
     const result = core.updateVariant(rootDir, name, {
       binDir,

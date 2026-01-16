@@ -12,10 +12,11 @@ test('buildCreateSummary includes all expected fields', () => {
   const summary = buildCreateSummary({
     providerLabel: 'Zai Cloud',
     npmPackage: '@anthropic-ai/claude-code',
-    npmVersion: '2.1.0',
+    npmVersion: '2.1.7',
     usePromptPack: true,
     installSkill: true,
     enableTeamMode: true,
+    teamModeSupported: true,
     modelOverrides: { sonnet: 'model-a', opus: 'model-b', haiku: 'model-c' },
     providerKey: 'zai',
     shellEnv: true,
@@ -37,10 +38,11 @@ test('buildCreateSummary omits models when not set', () => {
   const summary = buildCreateSummary({
     providerLabel: 'OpenRouter',
     npmPackage: '@anthropic-ai/claude-code',
-    npmVersion: '2.1.0',
+    npmVersion: '2.1.7',
     usePromptPack: false,
     installSkill: false,
     enableTeamMode: false,
+    teamModeSupported: true,
     modelOverrides: {},
     providerKey: 'openrouter',
     shellEnv: false,
@@ -55,10 +57,11 @@ test('buildCreateSummary shows prompt pack off when disabled', () => {
   const summary = buildCreateSummary({
     providerLabel: 'Custom',
     npmPackage: '@anthropic-ai/claude-code',
-    npmVersion: '2.1.0',
+    npmVersion: '2.1.7',
     usePromptPack: false,
     installSkill: false,
     enableTeamMode: false,
+    teamModeSupported: true,
     modelOverrides: {},
     providerKey: 'custom',
     shellEnv: false,
@@ -72,10 +75,11 @@ test('buildCreateSummary shows provider-specific prompt pack routing', () => {
   const minimaxSummary = buildCreateSummary({
     providerLabel: 'MiniMax',
     npmPackage: '@anthropic-ai/claude-code',
-    npmVersion: '2.1.0',
+    npmVersion: '2.1.7',
     usePromptPack: true,
     installSkill: false,
     enableTeamMode: false,
+    teamModeSupported: true,
     modelOverrides: {},
     providerKey: 'minimax',
     shellEnv: false,
@@ -138,7 +142,8 @@ test('buildUpdateSummary includes provider info', () => {
       shellEnv: true,
       teamModeEnabled: true,
     }),
-    ['Update note']
+    ['Update note'],
+    true
   );
 
   assert.ok(summary.some((line) => line.includes('Provider: zai')));
@@ -158,7 +163,9 @@ test('buildUpdateSummary omits shell env for non-zai providers', () => {
       skillInstall: false,
       shellEnv: false,
       teamModeEnabled: false,
-    })
+    }),
+    undefined,
+    true
   );
 
   assert.ok(!summary.some((line) => line.includes('Shell env:')));

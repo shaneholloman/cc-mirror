@@ -13,12 +13,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import * as core from '../../src/core/index.js';
 import { TEAM_PACK_FILES } from '../../src/team-pack/index.js';
+import { detectTeamModeState } from '../../src/core/variant-builder/team-mode-patch.js';
 import { makeTempDir, readFile, cleanup } from '../helpers/index.js';
 
-const TEAM_MODE_ENABLED = 'function Uq(){return!0}';
-const TEAM_MODE_DISABLED = 'function Uq(){return!1}';
+const testTeamMode = core.TEAM_MODE_SUPPORTED ? test : test.skip;
 
-test('E2E: Team Mode', async (t) => {
+testTeamMode('E2E: Team Mode', async (t) => {
   const createdDirs: string[] = [];
 
   t.after(() => {
@@ -52,8 +52,7 @@ test('E2E: Team Mode', async (t) => {
     // Verify cli.js was patched
     const cliPath = path.join(variantDir, 'npm', 'node_modules', '@anthropic-ai', 'claude-code', 'cli.js');
     const cliContent = readFile(cliPath);
-    assert.ok(cliContent.includes(TEAM_MODE_ENABLED), 'cli.js should have team mode enabled');
-    assert.ok(!cliContent.includes(TEAM_MODE_DISABLED), 'cli.js should not have team mode disabled');
+    assert.equal(detectTeamModeState(cliContent), 'enabled', 'cli.js should have team mode enabled');
 
     // Verify orchestrator skill installed
     const skillPath = path.join(variantDir, 'config', 'skills', 'orchestration');
@@ -99,8 +98,7 @@ test('E2E: Team Mode', async (t) => {
     // Verify cli.js was NOT patched
     const cliPath = path.join(variantDir, 'npm', 'node_modules', '@anthropic-ai', 'claude-code', 'cli.js');
     const cliContent = readFile(cliPath);
-    assert.ok(cliContent.includes(TEAM_MODE_DISABLED), 'cli.js should have team mode disabled');
-    assert.ok(!cliContent.includes(TEAM_MODE_ENABLED), 'cli.js should not have team mode enabled');
+    assert.equal(detectTeamModeState(cliContent), 'disabled', 'cli.js should have team mode disabled');
 
     // Verify orchestrator skill NOT installed
     const skillPath = path.join(variantDir, 'config', 'skills', 'orchestration');
@@ -133,7 +131,7 @@ test('E2E: Team Mode', async (t) => {
     // Mirror provider should auto-enable team mode
     const cliPath = path.join(variantDir, 'npm', 'node_modules', '@anthropic-ai', 'claude-code', 'cli.js');
     const cliContent = readFile(cliPath);
-    assert.ok(cliContent.includes(TEAM_MODE_ENABLED), 'mirror should auto-enable team mode');
+    assert.equal(detectTeamModeState(cliContent), 'enabled', 'mirror should auto-enable team mode');
 
     // Verify orchestrator skill installed
     const skillPath = path.join(variantDir, 'config', 'skills', 'orchestration');
@@ -164,7 +162,7 @@ test('E2E: Team Mode', async (t) => {
 
     // Verify initially disabled
     let cliContent = readFile(cliPath);
-    assert.ok(cliContent.includes(TEAM_MODE_DISABLED), 'should start with team mode disabled');
+    assert.equal(detectTeamModeState(cliContent), 'disabled', 'should start with team mode disabled');
 
     // Enable via update (noTweak to keep test deterministic)
     core.updateVariant(rootDir, 'test-toggle', {
@@ -175,7 +173,7 @@ test('E2E: Team Mode', async (t) => {
 
     // Verify now enabled
     cliContent = readFile(cliPath);
-    assert.ok(cliContent.includes(TEAM_MODE_ENABLED), 'should have team mode enabled after update');
+    assert.equal(detectTeamModeState(cliContent), 'enabled', 'should have team mode enabled after update');
 
     // Verify skill installed
     const skillPath = path.join(variantDir, 'config', 'skills', 'orchestration');
@@ -190,7 +188,7 @@ test('E2E: Team Mode', async (t) => {
 
     // Verify disabled again
     cliContent = readFile(cliPath);
-    assert.ok(cliContent.includes(TEAM_MODE_DISABLED), 'should have team mode disabled after update');
+    assert.equal(detectTeamModeState(cliContent), 'disabled', 'should have team mode disabled after update');
 
     // Verify skill removed
     assert.ok(!fs.existsSync(skillPath), 'skill should be removed after disabling');

@@ -16,6 +16,7 @@ import { makeTempDir, readFile, cleanup } from '../helpers/index.js';
 
 test('E2E: Blocked Tools', async (t) => {
   const createdDirs: string[] = [];
+  const teamModeSupported = core.TEAM_MODE_SUPPORTED;
 
   t.after(() => {
     for (const dir of createdDirs) {
@@ -99,7 +100,7 @@ test('E2E: Blocked Tools', async (t) => {
     assert.equal(config.settings.defaultToolset, 'minimax', 'default toolset should be minimax');
   });
 
-  await t.test('team mode merges blocked tools with TodoWrite for zai', () => {
+  await t.test('team mode merges blocked tools with TodoWrite for zai', { skip: !teamModeSupported }, () => {
     const rootDir = makeTempDir();
     const binDir = makeTempDir();
     createdDirs.push(rootDir, binDir);
@@ -138,7 +139,7 @@ test('E2E: Blocked Tools', async (t) => {
     assert.equal(config.settings.defaultToolset, 'team', 'default toolset should be team');
   });
 
-  await t.test('team mode merges blocked tools with TodoWrite for minimax', () => {
+  await t.test('team mode merges blocked tools with TodoWrite for minimax', { skip: !teamModeSupported }, () => {
     const rootDir = makeTempDir();
     const binDir = makeTempDir();
     createdDirs.push(rootDir, binDir);

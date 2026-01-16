@@ -22,7 +22,7 @@ const createContext = (rootDir: string, binDir: string, opts: UpdateContext['opt
     name,
     provider: 'zai',
     createdAt: new Date().toISOString(),
-    claudeOrig: 'npm:@anthropic-ai/claude-code@2.1.1',
+    claudeOrig: 'npm:@anthropic-ai/claude-code@2.1.7',
     binaryPath: path.join(npmDir, 'node_modules', '@anthropic-ai', 'claude-code', 'cli.js'),
     configDir,
     tweakDir,
@@ -43,7 +43,7 @@ const createContext = (rootDir: string, binDir: string, opts: UpdateContext['opt
     },
     prefs: {
       resolvedNpmPackage: '@anthropic-ai/claude-code',
-      resolvedNpmVersion: '2.1.1',
+      resolvedNpmVersion: '2.1.7',
       promptPackPreference: true,
       promptPackEnabled: true,
       skillInstallEnabled: true,

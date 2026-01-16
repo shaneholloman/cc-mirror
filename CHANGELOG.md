@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-01-15
+
+### Changed
+
+- Default Claude Code npm version updated to 2.1.7.
+- Team mode is disabled in current builds; legacy flags are ignored.
+
+### Added
+
+- Team mode cleanup during updates when legacy metadata is detected.
+
+### Documentation
+
+- README and docs now mark team mode as legacy (cc-mirror 1.6.3 only).
+
+## [1.6.5] - 2026-01-12
+
+### Changed
+
+- Default Claude Code npm version updated to 2.1.5.
+
 ## [1.6.4] - 2026-01-12
 
 ### Changed
