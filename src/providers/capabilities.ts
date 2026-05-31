@@ -713,6 +713,7 @@ export const buildCapabilityMetadata = (opts: {
   promptPackEnabled: boolean;
   shellEnvEnabled: boolean;
   skillInstallEnabled: boolean;
+  tweakccEnabled?: boolean;
 }) => {
   const aliases = {
     opus: opts.env?.ANTHROPIC_DEFAULT_OPUS_MODEL,
@@ -775,7 +776,7 @@ export const buildCapabilityMetadata = (opts: {
         nonessentialTraffic: opts.profile.runtime.nonessentialTraffic,
       },
       tweakcc: {
-        enabled: opts.profile.features.tweakcc.defaultEnabled,
+        enabled: opts.tweakccEnabled ?? opts.profile.features.tweakcc.defaultEnabled,
         profile: opts.profile.features.tweakcc.profile,
       },
     },

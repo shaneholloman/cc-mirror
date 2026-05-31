@@ -22,7 +22,7 @@ export class FinalizeUpdateStep implements UpdateStep {
   }
 
   private finalize(ctx: UpdateContext): void {
-    const { meta, paths, prefs } = ctx;
+    const { meta, paths, prefs, state } = ctx;
 
     meta.updatedAt = new Date().toISOString();
     meta.promptPack = prefs.promptPackPreference;
@@ -31,6 +31,9 @@ export class FinalizeUpdateStep implements UpdateStep {
     const profile = getProviderCapability(meta.provider);
     const settings =
       readJson<{ env?: Record<string, string | number> }>(path.join(meta.configDir, 'settings.json')) || {};
+    const tweakccEnabled = ctx.opts.settingsOnly
+      ? (meta.capabilities?.tweakcc?.enabled ?? profile?.features.tweakcc.defaultEnabled ?? false)
+      : !ctx.opts.noTweak && state.tweakResult?.status === 0;
     const capabilityMetadata = profile
       ? buildCapabilityMetadata({
           profile,
@@ -39,6 +42,7 @@ export class FinalizeUpdateStep implements UpdateStep {
           promptPackEnabled: prefs.promptPackPreference,
           shellEnvEnabled: prefs.shellEnvEnabled,
           skillInstallEnabled: prefs.skillInstallEnabled,
+          tweakccEnabled,
         })
       : {};
 

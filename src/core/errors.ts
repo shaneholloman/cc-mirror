@@ -24,6 +24,16 @@ const extractErrorHint = (text: string) => {
   return null;
 };
 
+export const isRecoverableTweakccFailure = (text: string) => {
+  const normalized = text.toLowerCase();
+  return (
+    normalized.includes('cc-mirror validation failed') ||
+    isBunCommonJsWrapperFailure(text) ||
+    isTweakccNativeExtractionFailure(text) ||
+    normalized.includes('node-lief')
+  );
+};
+
 export const formatTweakccFailure = (output: string) => {
   const hint = extractErrorHint(output);
   if (hint) return hint;

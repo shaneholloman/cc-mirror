@@ -5,7 +5,7 @@
 import { applyPromptPack } from '../../prompt-pack.js';
 import { getTweakccResultNotes, runTweakcc, runTweakccAsync } from '../../tweakcc.js';
 import { getManagedTweakccPatchIds } from '../../tweakcc-profile.js';
-import { formatTweakccFailure } from '../../errors.js';
+import { formatTweakccFailure, isRecoverableTweakccFailure } from '../../errors.js';
 import type { BuildContext, BuildStep } from '../types.js';
 
 export class TweakccStep implements BuildStep {
@@ -16,6 +16,23 @@ export class TweakccStep implements BuildStep {
       if (!ctx.state.notes.includes(note)) {
         ctx.state.notes.push(note);
       }
+    }
+  }
+
+  private handleTweakccFailure(ctx: BuildContext, output: string): void {
+    const message = formatTweakccFailure(output);
+    if (!isRecoverableTweakccFailure(output)) {
+      throw new Error(message);
+    }
+
+    ctx.prefs.promptPackEnabled = false;
+    ctx.prefs.promptPackPreference = false;
+    if (!ctx.state.notes.includes(message)) {
+      ctx.state.notes.push(message);
+    }
+    const fallbackNote = 'Continuing with pristine native runtime; tweakcc theming and prompt pack were skipped.';
+    if (!ctx.state.notes.includes(fallbackNote)) {
+      ctx.state.notes.push(fallbackNote);
     }
   }
 
@@ -36,7 +53,8 @@ export class TweakccStep implements BuildStep {
 
     if (state.tweakResult.status !== 0) {
       const output = `${state.tweakResult.stderr ?? ''}\n${state.tweakResult.stdout ?? ''}`.trim();
-      throw new Error(formatTweakccFailure(output));
+      this.handleTweakccFailure(ctx, output);
+      return;
     }
 
     let shouldReapply = false;
@@ -59,7 +77,8 @@ export class TweakccStep implements BuildStep {
 
       if (reapply.status !== 0) {
         const output = `${reapply.stderr ?? ''}\n${reapply.stdout ?? ''}`.trim();
-        throw new Error(formatTweakccFailure(output));
+        this.handleTweakccFailure(ctx, output);
+        return;
       }
     }
   }
@@ -81,7 +100,8 @@ export class TweakccStep implements BuildStep {
 
     if (state.tweakResult.status !== 0) {
       const output = `${state.tweakResult.stderr ?? ''}\n${state.tweakResult.stdout ?? ''}`.trim();
-      throw new Error(formatTweakccFailure(output));
+      this.handleTweakccFailure(ctx, output);
+      return;
     }
 
     let shouldReapply = false;
@@ -104,7 +124,8 @@ export class TweakccStep implements BuildStep {
 
       if (reapply.status !== 0) {
         const output = `${reapply.stderr ?? ''}\n${reapply.stdout ?? ''}`.trim();
-        throw new Error(formatTweakccFailure(output));
+        this.handleTweakccFailure(ctx, output);
+        return;
       }
     }
   }

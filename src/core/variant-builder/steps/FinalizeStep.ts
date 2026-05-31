@@ -35,6 +35,7 @@ export class FinalizeStep implements BuildStep {
       promptPackEnabled: prefs.promptPackPreference,
       shellEnvEnabled: prefs.shellEnvEnabled,
       skillInstallEnabled: prefs.skillInstallEnabled,
+      tweakccEnabled: !params.noTweak && state.tweakResult?.status === 0,
     });
 
     const meta: VariantMeta = {
