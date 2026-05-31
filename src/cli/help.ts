@@ -59,7 +59,7 @@ OPTIONS (advanced)
   --live                       Live provider probe (doctor)
 
 PROVIDERS
-  kimi          Kimi K2.6 via Moonshot
+  kimi          Kimi For Coding via Kimi Code
   minimax       MiniMax-M2.7 via MiniMax Token Plan
   zai           GLM-5.1/5-Turbo/4.5-Air via Z.ai Coding Plan
   openrouter    100+ models via OpenRouter
@@ -74,7 +74,7 @@ EXAMPLES
   npx cc-mirror quick --provider zai --api-key "$Z_AI_API_KEY"
   npx cc-mirror apply mirror
   npx cc-mirror update mirror --claude-version latest
-  npx cc-mirror update kimi --api-key "$MOONSHOT_API_KEY"
+  npx cc-mirror update kimi --api-key "$KIMI_API_KEY"
   npx cc-mirror doctor
 
 LEARN MORE

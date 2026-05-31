@@ -237,20 +237,21 @@ test('ConfigUpdateStep can rotate credentials during update', () => {
 
     const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8')) as UpdatedSettings;
     assert.equal(settings.env.ANTHROPIC_AUTH_TOKEN, 'new-kimi-key');
+    assert.equal(settings.env.KIMI_API_KEY, 'new-kimi-key');
     assert.equal(settings.env.ANTHROPIC_API_KEY, '');
     assert.equal(settings.env.CUSTOM_ENV, 'keep-user-value');
-    assert.equal(settings.env.ANTHROPIC_MODEL, 'kimi-k2.6');
+    assert.equal(settings.env.ANTHROPIC_MODEL, 'kimi-for-coding');
   } finally {
     cleanup(rootDir);
   }
 });
 
-test('ConfigUpdateStep moves Kimi to K2.6 Moonshot defaults while preserving the credential', () => {
+test('ConfigUpdateStep moves Kimi to Kimi Code defaults while preserving the credential', () => {
   const rootDir = makeTempDir();
   try {
     const notes: string[] = [];
     const ctx = makeContext(rootDir, 'kimi', notes);
-    ctx.meta.baseUrl = 'https://api.kimi.com/coding/';
+    ctx.meta.baseUrl = 'https://api.moonshot.ai/anthropic';
     const settingsPath = path.join(ctx.meta.configDir, 'settings.json');
     fs.writeFileSync(
       settingsPath,
@@ -258,11 +259,11 @@ test('ConfigUpdateStep moves Kimi to K2.6 Moonshot defaults while preserving the
         {
           env: {
             ANTHROPIC_API_KEY: 'kimi-key',
-            ANTHROPIC_BASE_URL: 'https://api.kimi.com/coding/',
-            ANTHROPIC_DEFAULT_OPUS_MODEL: 'kimi-for-coding',
-            ANTHROPIC_DEFAULT_SONNET_MODEL: 'kimi-for-coding',
-            ANTHROPIC_DEFAULT_HAIKU_MODEL: 'kimi-for-coding',
-            ANTHROPIC_MODEL: 'kimi-for-coding',
+            ANTHROPIC_BASE_URL: 'https://api.moonshot.ai/anthropic',
+            ANTHROPIC_DEFAULT_OPUS_MODEL: 'kimi-k2.6',
+            ANTHROPIC_DEFAULT_SONNET_MODEL: 'kimi-k2.6',
+            ANTHROPIC_DEFAULT_HAIKU_MODEL: 'kimi-k2.6',
+            ANTHROPIC_MODEL: 'kimi-k2.6',
             CC_MIRROR_UNSET_AUTH_TOKEN: '1',
             CUSTOM_ENV: 'keep-user-value',
           },
@@ -275,21 +276,23 @@ test('ConfigUpdateStep moves Kimi to K2.6 Moonshot defaults while preserving the
     new ConfigUpdateStep().execute(ctx);
 
     const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8')) as UpdatedSettings;
-    assert.equal(ctx.meta.baseUrl, 'https://api.moonshot.ai/anthropic');
+    assert.equal(ctx.meta.baseUrl, 'https://api.kimi.com/coding');
     assert.equal(settings.env.ANTHROPIC_AUTH_TOKEN, 'kimi-key');
+    assert.equal(settings.env.KIMI_API_KEY, 'kimi-key');
     assert.equal(settings.env.ANTHROPIC_API_KEY, '');
-    assert.equal(settings.env.ANTHROPIC_BASE_URL, 'https://api.moonshot.ai/anthropic');
-    assert.equal(settings.env.ANTHROPIC_DEFAULT_OPUS_MODEL, 'kimi-k2.6');
-    assert.equal(settings.env.ANTHROPIC_DEFAULT_SONNET_MODEL, 'kimi-k2.6');
-    assert.equal(settings.env.ANTHROPIC_DEFAULT_HAIKU_MODEL, 'kimi-k2.6');
-    assert.equal(settings.env.ANTHROPIC_MODEL, 'kimi-k2.6');
+    assert.equal(settings.env.ANTHROPIC_BASE_URL, 'https://api.kimi.com/coding');
+    assert.equal(settings.env.ANTHROPIC_CUSTOM_HEADERS, 'User-Agent: KimiCLI/1.5');
+    assert.equal(settings.env.ANTHROPIC_DEFAULT_OPUS_MODEL, 'kimi-for-coding');
+    assert.equal(settings.env.ANTHROPIC_DEFAULT_SONNET_MODEL, 'kimi-for-coding');
+    assert.equal(settings.env.ANTHROPIC_DEFAULT_HAIKU_MODEL, 'kimi-for-coding');
+    assert.equal(settings.env.ANTHROPIC_MODEL, 'kimi-for-coding');
     assert.equal(settings.env.CC_MIRROR_UNSET_AUTH_TOKEN, undefined);
-    assert.equal(settings.env.CLAUDE_CODE_SUBAGENT_MODEL, 'kimi-k2.6');
-    assert.equal(settings.env.ANTHROPIC_DEFAULT_SONNET_MODEL_NAME, 'Kimi K2.6');
-    assert.equal(settings.env.ANTHROPIC_CUSTOM_MODEL_OPTION, 'kimi-k2.6');
+    assert.equal(settings.env.CLAUDE_CODE_SUBAGENT_MODEL, 'kimi-for-coding');
+    assert.equal(settings.env.ANTHROPIC_DEFAULT_SONNET_MODEL_NAME, 'Kimi For Coding');
+    assert.equal(settings.env.ANTHROPIC_CUSTOM_MODEL_OPTION, 'kimi-k2-thinking');
     assert.equal(settings.env.CUSTOM_ENV, 'keep-user-value');
-    assert.equal(settings.model, 'kimi-k2.6');
-    assert.deepEqual(settings.availableModels, ['kimi-k2.6']);
+    assert.equal(settings.model, 'kimi-for-coding');
+    assert.deepEqual(settings.availableModels, ['kimi-for-coding']);
     const claudeConfig = JSON.parse(fs.readFileSync(path.join(ctx.meta.configDir, '.claude.json'), 'utf8')) as {
       opus48LaunchSeenCount?: number;
       passesUpsellSeenCount?: number;

@@ -71,7 +71,7 @@ docs/
 ┌──────────────┬────────────────────┬──────────────┬────────────┐
 │   Provider   │       Model        │  Auth Mode   │ Prompt Pack│
 ├──────────────┼────────────────────┼──────────────┼────────────┤
-│ kimi         │ kimi-k2.6          │ Auth Token   │ ✗          │
+│ kimi         │ kimi-for-coding    │ Auth Token   │ ✗          │
 │ minimax      │ MiniMax-M2.7       │ Auth Token   │ ✓ Full     │
 │ zai          │ GLM-5.1/5-Turbo/4.5-Air │ Auth Token   │ ✓ Full     │
 │ openrouter   │ You choose         │ Auth Token   │ ✗          │

@@ -3,6 +3,7 @@ import {
   DEFAULT_PROVIDER_TIMEOUT_MS,
   getProviderCapability,
   KIMI_DEFAULT_MODEL,
+  KIMI_CUSTOM_HEADERS,
   MINIMAX_DEFAULT_MODEL,
   NANOGPT_DEFAULT_MODELS,
   OLLAMA_DEFAULT_MODEL,
@@ -175,10 +176,11 @@ const PROVIDERS: Record<string, ProviderTemplate> = {
   kimi: {
     key: 'kimi',
     label: 'Kimi Code',
-    description: 'Kimi K2.6 via Moonshot',
-    baseUrl: 'https://api.moonshot.ai/anthropic',
+    description: 'Kimi For Coding via Kimi Code',
+    baseUrl: 'https://api.kimi.com/coding',
     env: {
       API_TIMEOUT_MS: DEFAULT_TIMEOUT_MS,
+      ANTHROPIC_CUSTOM_HEADERS: KIMI_CUSTOM_HEADERS,
       ...buildKimiModelEnv(),
       CLAUDE_CODE_SUBAGENT_MODEL: KIMI_DEFAULT_MODEL,
       CC_MIRROR_SPLASH: 1,

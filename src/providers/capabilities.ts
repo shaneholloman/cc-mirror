@@ -99,8 +99,10 @@ export const ZAI_DEFAULT_MODELS = {
 
 export const ZAI_STALE_MODELS = ['pony-alpha-2', 'glm-5', 'glm-4.7'] as const;
 
-export const KIMI_DEFAULT_MODEL = 'kimi-k2.6';
-export const KIMI_STALE_MODELS = ['kimi-for-coding', 'kimi-k2.5'] as const;
+export const KIMI_DEFAULT_MODEL = 'kimi-for-coding';
+export const KIMI_THINKING_MODEL = 'kimi-k2-thinking';
+export const KIMI_CUSTOM_HEADERS = 'User-Agent: KimiCLI/1.5';
+export const KIMI_STALE_MODELS = ['kimi-k2.6', 'kimi-k2.5', 'k2p5', 'k2p6'] as const;
 
 export const MINIMAX_DEFAULT_MODEL = 'MiniMax-M2.7';
 export const MINIMAX_STALE_MODELS = ['MiniMax-M2.5'] as const;
@@ -225,7 +227,9 @@ export const getManagedSettingsEnvKeys = (profile?: ProviderCapabilityProfile): 
     'ANTHROPIC_BASE_URL',
     'ANTHROPIC_API_KEY',
     'ANTHROPIC_AUTH_TOKEN',
+    'ANTHROPIC_CUSTOM_HEADERS',
     'Z_AI_API_KEY',
+    'KIMI_API_KEY',
     'ANTHROPIC_DEFAULT_OPUS_MODEL',
     'ANTHROPIC_DEFAULT_SONNET_MODEL',
     'ANTHROPIC_DEFAULT_HAIKU_MODEL',
@@ -341,23 +345,35 @@ export const PROVIDER_CAPABILITIES: Record<string, ProviderCapabilityProfile> = 
   },
   kimi: {
     key: 'kimi',
-    version: 1,
+    version: 2,
     providerClass: 'hostedAuthToken',
-    auth: { mode: 'authToken', required: true, credentialEnv: 'ANTHROPIC_AUTH_TOKEN', emptyApiKey: true },
+    auth: {
+      mode: 'authToken',
+      required: true,
+      credentialEnv: 'ANTHROPIC_AUTH_TOKEN',
+      emptyApiKey: true,
+      derivedCredentialEnv: ['KIMI_API_KEY'],
+    },
     endpoint: {
       managed: true,
-      defaultBaseUrl: 'https://api.moonshot.ai/anthropic',
-      staleBaseUrls: ['https://api.kimi.com/coding/'],
+      defaultBaseUrl: 'https://api.kimi.com/coding',
+      staleBaseUrls: [
+        'https://api.moonshot.ai/anthropic',
+        'https://api.moonshot.ai/anthropic/',
+        'https://api.kimi.com/coding/',
+        'https://api.kimi.com/coding/v1',
+        'https://api.kimi.com/coding/v1/',
+      ],
       editable: true,
     },
     models: {
       policy: 'defaulted',
       aliases: aliasesFromSingleModel(KIMI_DEFAULT_MODEL),
-      display: displayFromSingleModel('Kimi K2.6', 'Moonshot Kimi coding model'),
+      display: displayFromSingleModel('Kimi For Coding', 'Kimi Code subscription model'),
       customModelOption: {
-        model: KIMI_DEFAULT_MODEL,
-        name: 'Kimi K2.6',
-        description: 'Moonshot Kimi coding model',
+        model: KIMI_THINKING_MODEL,
+        name: 'Kimi K2 Thinking',
+        description: 'Kimi Code thinking model',
       },
       startupAlias: 'sonnet',
       startupEnv: 'ANTHROPIC_MODEL',

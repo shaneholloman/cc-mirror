@@ -85,7 +85,7 @@ test('E2E: Colored ASCII art content verification', async (t) => {
     const asciiPatterns: Record<string, string[]> = {
       zai: ['GLM Coding Plan', 'A I'],
       minimax: ['MiniMax', 'AGI for All'],
-      kimi: ['K I M I   C O D E', 'Kimi K2.6', 'Moonshot'],
+      kimi: ['K I M I   C O D E', 'Kimi For Coding', 'Code Plan'],
       openrouter: ['One API', 'Any Model', '██'],
       ccrouter: ['Any Model', 'Local Router', '██'],
       gatewayz: ['AI Gateway', '██'],

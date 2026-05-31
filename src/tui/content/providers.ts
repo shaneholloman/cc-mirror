@@ -78,20 +78,21 @@ export const PROVIDER_EDUCATION: Record<string, ProviderEducation> = {
   },
 
   kimi: {
-    headline: 'Kimi Code - K2.6',
+    headline: 'Kimi Code - For Coding',
     tagline: 'Aurora context, crisp code',
     features: [
-      'Moonshot tool-compatible endpoint',
-      'Kimi K2.6 model for all slots',
+      'Kimi Code Anthropic-compatible endpoint',
+      'Kimi For Coding model for all slots',
+      'Kimi K2 Thinking available as a custom option',
       'Up to 262k context window',
       'Long-context coding workflow',
       'Aurora-themed interface',
     ],
     bestFor: 'Long-context coding sessions via the Kimi Code plan',
     models: {
-      opus: 'kimi-k2.6',
-      sonnet: 'kimi-k2.6',
-      haiku: 'kimi-k2.6',
+      opus: 'kimi-for-coding',
+      sonnet: 'kimi-for-coding',
+      haiku: 'kimi-for-coding',
     },
     requiresMapping: false,
     hasPromptPack: false,
@@ -100,8 +101,7 @@ export const PROVIDER_EDUCATION: Record<string, ProviderEducation> = {
       apiKey: 'https://platform.kimi.ai/console/api-keys',
       docs: 'https://platform.kimi.ai/docs/guide/agent-support',
     },
-    setupNote:
-      'Subscribe to Kimi Code, create a Moonshot API key in the Kimi API Platform, and cc-mirror will configure the Moonshot endpoint.',
+    setupNote: 'Subscribe to Kimi Code, create a Kimi API key, and cc-mirror will configure the Kimi Coding endpoint.',
   },
 
   openrouter: {

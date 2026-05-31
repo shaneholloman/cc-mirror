@@ -117,13 +117,14 @@ test('Provider Feature Matrix', async (t) => {
   await t.test('kimi provider has default models', () => {
     const kimi = getProvider('kimi');
     assert.ok(kimi, 'kimi provider should exist');
-    assert.equal(kimi.baseUrl, 'https://api.moonshot.ai/anthropic');
+    assert.equal(kimi.baseUrl, 'https://api.kimi.com/coding');
     assert.equal(kimi.authMode, 'authToken');
-    assert.equal(kimi.env.ANTHROPIC_DEFAULT_HAIKU_MODEL, 'kimi-k2.6');
-    assert.equal(kimi.env.ANTHROPIC_DEFAULT_SONNET_MODEL, 'kimi-k2.6');
-    assert.equal(kimi.env.ANTHROPIC_DEFAULT_OPUS_MODEL, 'kimi-k2.6');
-    assert.equal(kimi.env.ANTHROPIC_MODEL, 'kimi-k2.6');
-    assert.equal(kimi.env.CLAUDE_CODE_SUBAGENT_MODEL, 'kimi-k2.6');
+    assert.equal(kimi.env.ANTHROPIC_CUSTOM_HEADERS, 'User-Agent: KimiCLI/1.5');
+    assert.equal(kimi.env.ANTHROPIC_DEFAULT_HAIKU_MODEL, 'kimi-for-coding');
+    assert.equal(kimi.env.ANTHROPIC_DEFAULT_SONNET_MODEL, 'kimi-for-coding');
+    assert.equal(kimi.env.ANTHROPIC_DEFAULT_OPUS_MODEL, 'kimi-for-coding');
+    assert.equal(kimi.env.ANTHROPIC_MODEL, 'kimi-for-coding');
+    assert.equal(kimi.env.CLAUDE_CODE_SUBAGENT_MODEL, 'kimi-for-coding');
   });
 
   await t.test('minimax provider has model settings', () => {

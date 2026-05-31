@@ -239,7 +239,7 @@ test('E2E: Doctor command', async (t) => {
     const settings = readJson<SettingsFixture>(settingsPath);
     settings.env = {
       ...settings.env,
-      ANTHROPIC_BASE_URL: 'https://api.moonshot.ai/anthropic',
+      ANTHROPIC_BASE_URL: 'https://api.kimi.com/coding',
       CC_MIRROR_UNSET_AUTH_TOKEN: '1',
     };
     writeJson(settingsPath, settings);

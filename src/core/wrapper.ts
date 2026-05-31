@@ -110,7 +110,7 @@ const SPLASH_ART: SplashArt = {
     `${C.kmAccent}    ╚═╝  ╚═╝╚═╝╚═╝     ╚═╝╚═╝${C.reset}`,
     '',
     `${C.kmDim}    ━━━━━━━━━━━━━━━━━${C.kmPrimary}◆${C.kmDim}━━━━━━━━━━━━━━━━━${C.reset}`,
-    `${C.kmSecondary}          Kimi K2.6${C.kmDim}━${C.kmSecondary} Moonshot${C.reset}`,
+    `${C.kmSecondary}        Kimi For Coding${C.kmDim}━${C.kmSecondary} Code Plan${C.reset}`,
     '',
   ],
   // OpenRouter: Stacked block letters (silver/chrome)

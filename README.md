@@ -102,7 +102,7 @@ Each variant is completely isolated — its own config, sessions, MCP servers, a
 │  │                                                                      │
 │  ├── zai/                            ← Z.ai variant (GLM models)        │
 │  ├── minimax/                        ← MiniMax variant (M2.7)           │
-│  └── kimi/                           ← Kimi Code variant (K2.6)          │
+│  └── kimi/                           ← Kimi Code variant                 │
 │                                                                         │
 │  Wrappers: <bin-dir>/mirror, <bin-dir>/zai, ...                         │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -153,7 +153,7 @@ Want to use different models? CC-MIRROR supports multiple providers:
 
 | Provider       | Models                    | Auth       | Best For                        |
 | -------------- | ------------------------- | ---------- | ------------------------------- |
-| **Kimi**       | kimi-k2.6                 | Auth Token | Long-context coding (Kimi Code) |
+| **Kimi**       | kimi-for-coding           | Auth Token | Long-context coding (Kimi Code) |
 | **MiniMax**    | MiniMax-M2.7              | Auth Token | Unified model experience        |
 | **Z.ai**       | GLM-5.1, 5-Turbo, 4.5-Air | Auth Token | Heavy coding with GLM reasoning |
 | **OpenRouter** | 100+ models               | Auth Token | Model flexibility, pay-per-use  |
@@ -178,7 +178,7 @@ Want to use different models? CC-MIRROR supports multiple providers:
 | **GatewayZ**   | https://gatewayz.ai                                           | https://gatewayz.ai                                              | https://docs.gatewayz.ai/docs/anthropic-compatibility            |
 
 ```bash
-# Kimi Code (K2.6)
+# Kimi Code
 npx cc-mirror quick --provider kimi --api-key "$KIMI_API_KEY"
 
 # MiniMax (MiniMax-M2.7)
