@@ -14,11 +14,13 @@ test('runTweakccAsync can execute npx.cmd on Windows', { skip: process.platform 
     // Use a stub npx.cmd so the test stays offline and deterministic.
     const stubNpx = path.join(stubBin, 'npx.cmd');
     fs.writeFileSync(stubNpx, '@echo off\r\necho STUB_NPX_ASYNC\r\nexit /b 0\r\n', { encoding: 'utf8' });
+    const binaryPath = path.join(tweakDir, 'claude.exe');
+    fs.copyFileSync(process.execPath, binaryPath);
 
     process.env.PATH = `${stubBin}${path.delimiter}${prevPath || ''}`;
 
-    const result = await runTweakccAsync(tweakDir, 'C:\\fake\\claude.exe', 'pipe');
-    assert.equal(result.status, 0);
+    const result = await runTweakccAsync(tweakDir, binaryPath, 'pipe');
+    assert.equal(result.status, 0, `${result.stderr ?? ''}\n${result.stdout ?? ''}`);
     assert.match(result.stdout ?? '', /STUB_NPX_ASYNC/i);
   } finally {
     process.env.PATH = prevPath;

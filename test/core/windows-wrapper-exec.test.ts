@@ -30,15 +30,26 @@ test('windows wrapper executes CLI', { skip: process.platform !== 'win32' }, () 
       });
 
       const wrapperPath = getWrapperPath(binDir, result.meta.name);
-      const exec = spawnSync(wrapperPath, ['--version'], {
+      const hiddenVersion = spawnSync(wrapperPath, ['--version'], {
         encoding: 'utf8',
         shell: true,
         env: { ...process.env, CC_MIRROR_SPLASH: '0' },
       });
 
-      assert.equal(exec.status, 0);
-      const output = `${exec.stdout ?? ''}${exec.stderr ?? ''}`;
-      assert.match(output, /\d+\.\d+\.\d+/, 'Expected --version output to include a semver');
+      assert.equal(hiddenVersion.status, 0);
+      const hiddenOutput = `${hiddenVersion.stdout ?? ''}${hiddenVersion.stderr ?? ''}`;
+      assert.match(hiddenOutput, /cc-mirror/i);
+      assert.doesNotMatch(hiddenOutput, /\d+\.\d+\.\d+/, 'Expected default --version output to hide native semver');
+
+      const nativeVersion = spawnSync(wrapperPath, ['--version'], {
+        encoding: 'utf8',
+        shell: true,
+        env: { ...process.env, CC_MIRROR_SHOW_NATIVE_VERSION: '1', CC_MIRROR_SPLASH: '0' },
+      });
+
+      assert.equal(nativeVersion.status, 0);
+      const nativeOutput = `${nativeVersion.stdout ?? ''}${nativeVersion.stderr ?? ''}`;
+      assert.match(nativeOutput, /\d+\.\d+\.\d+/, 'Expected opt-in --version output to include a native semver');
     })();
   } finally {
     cleanup(rootDir);
